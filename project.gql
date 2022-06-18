@@ -1,0 +1,28 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type Translation {
+  _id: String!
+  titleOriginal: String
+  titleTranslation: String
+  singleOrAnthology: String
+  authors: String
+  translators: String
+  editors: String
+  translatedFrom: String
+  translatedInto: String
+  type: String
+  yearOfPublicationOriginal: String
+  YearOfPublicationTranslation: String
+  publisherOriginal: String
+  publisherTranslation: String
+  ebook: String
+  genre: String
+  isbn: String
+}
+
+type Query {
+  translations: [Translation!]!
+  translationById(_id: String!): Translation!
+}
