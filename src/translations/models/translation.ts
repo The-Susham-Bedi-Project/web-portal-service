@@ -53,4 +53,7 @@ export class Translation {
 
     @Field({ nullable: true })
     isbn?: string;
+
+    @Field({ nullable: true })
+    imgUrl?: string;
 }

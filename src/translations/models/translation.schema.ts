@@ -55,6 +55,9 @@ export class Translation {
 
     @Prop({ required: false })
     isbn?: string;
+
+    @Prop({ required: false })
+    imgUrl?: string;
 };
 
 export const TranslationSchema = SchemaFactory.createForClass(Translation);

@@ -20,6 +20,7 @@ type Translation {
   ebook: String
   genre: String
   isbn: String
+  imgUrl: String
 }
 
 type Query {
