@@ -25,5 +25,6 @@ type Translation {
 
 type Query {
   translations: [Translation!]!
+  search(searchString: String!): [Translation!]!
   translationById(_id: String!): Translation!
 }

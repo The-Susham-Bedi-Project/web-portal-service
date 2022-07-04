@@ -12,6 +12,11 @@ export class TranslationsResolver {
         return this.translationsService.findAll();
     }
 
+    @Query(() => [Translation])
+    async search(@Args('searchString') searchString: string) {
+        return this.translationsService.search(searchString);
+    }
+
     @Query(() => Translation)
     async translationById(@Args('_id') _id: string) {
         return this.translationsService.findOne(_id);

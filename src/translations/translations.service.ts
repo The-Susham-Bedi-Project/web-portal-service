@@ -16,4 +16,15 @@ export class TranslationsService {
       async findOne(id: string): Promise<Translation> {
         return this.tranlationModel.findOne({ _id: id }).exec();
       }
+
+      async search(searchString: string):  Promise<Translation[]> {
+        return this.tranlationModel.find().or([
+          {'titleTranslation': { $regex: searchString }}, 
+          { 'translators': { $regex: searchString }},
+          { 'translatedInto': { $regex: searchString }},
+          { 'titleOriginal': { $regex: searchString }},
+          { 'authors': { $regex: searchString }},
+          { 'translatedFrom': { $regex: searchString }}
+        ])
+      }
 }
