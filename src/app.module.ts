@@ -3,6 +3,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { TranslationsModule } from './translations/translations.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { ThemesModule } from './themes/themes.module';
 
 
 @Module({
@@ -13,8 +14,9 @@ import { MongooseModule } from '@nestjs/mongoose';
       playground: true,
       autoSchemaFile: 'project.gql',
     }),
-    MongooseModule.forRoot('mongodb://localhost/The-Susham-Bedi-Project'),
-    TranslationsModule
+    MongooseModule.forRoot('mongodb://localhost/Found_In_Translation_Portal'),
+    TranslationsModule,
+    ThemesModule
   ],
   controllers: [],
   providers: [],

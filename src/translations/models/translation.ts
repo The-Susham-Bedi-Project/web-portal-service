@@ -37,7 +37,7 @@ export class Translation {
     yearOfPublicationOriginal?: string;
 
     @Field({ nullable: true })
-    YearOfPublicationTranslation?: string;
+    yearOfPublicationTranslation?: string;
 
     @Field({ nullable: true })
     publisherOriginal?: string;
@@ -56,4 +56,7 @@ export class Translation {
 
     @Field({ nullable: true })
     imgUrl?: string;
+
+    @Field({ nullable: true })
+    tags?: string;
 }

@@ -21,4 +21,9 @@ export class TranslationsResolver {
     async translationById(@Args('_id') _id: string) {
         return this.translationsService.findOne(_id);
     }
+
+    @Query(() => [Translation])
+    async translationByIdList(@Args({name: 'ids', type: () => [String]}) ids: string[]) {
+        return this.translationsService.findbyIds(ids);
+    }
 }

@@ -39,7 +39,7 @@ export class Translation {
     yearOfPublicationOriginal?: string;
 
     @Prop({ required: false })
-    YearOfPublicationTranslation?: string;
+    yearOfPublicationTranslation?: string;
 
     @Prop({ required: false })
     publisherOriginal?: string;
@@ -58,6 +58,9 @@ export class Translation {
 
     @Prop({ required: false })
     imgUrl?: string;
+
+    @Prop({ required: false })
+    tags?: string;
 };
 
 export const TranslationSchema = SchemaFactory.createForClass(Translation);
