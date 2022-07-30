@@ -14,7 +14,16 @@ import { ThemesModule } from './themes/themes.module';
       playground: true,
       autoSchemaFile: 'project.gql',
     }),
-    MongooseModule.forRoot('mongodb://localhost/Found_In_Translation_Portal'),
+    MongooseModule.forRoot(
+      'mongodb+srv://user:mongo@cluster0.b1s6p.mongodb.net',
+      {
+        user: 'user',
+        pass: 'mongo',
+        dbName: 'Found_In_Translation_Portal',
+        w: 'majority',
+        retryWrites: true
+      }
+    ),
     TranslationsModule,
     ThemesModule
   ],
