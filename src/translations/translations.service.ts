@@ -22,23 +22,37 @@ export class TranslationsService {
   }
 
   async search(searchString: string): Promise<Translation[]> {
-    return this.tranlationModel.find().or([
-      { 'titleTranslation': { $regex: `${searchString}` } },
-      { 'translators': { $regex: `${searchString}` } },
-      { 'translatedInto': { $regex: `${searchString}` } },
-      { 'titleOriginal': { $regex: `${searchString}` } },
-      { 'authors': { $regex: `${searchString}` } },
-      { 'translatedFrom': { $regex: `${searchString}` } },
-      { 'singleOrAnthology': { $regex: `${searchString}` } },
-      { 'editors': { $regex: `${searchString}` } },
-      { 'type': { $regex: `${searchString}` } },
-      { 'yearOfPublicationOriginal': { $regex: `${searchString}` } },
-      { 'yearOfPublicationTranslation': { $regex: `${searchString}` } },
-      { 'publisherOriginal': { $regex: `${searchString}` } },
-      { 'publisherTranslation': { $regex: `${searchString}` } },
-      { 'ebook': { $regex: `${searchString}` } },
-      { 'genre': { $regex: `${searchString}` } },
-      { 'isbn': { $regex: `${searchString}` } },
-    ]).sort({ 'titleTranslation': 1 })
+    return this.tranlationModel.aggregate([
+      {
+        '$search': {
+          'index': 'searchTranslations',
+          'text': {
+            'query': `${searchString}`,
+            'path': {
+              'wildcard': '*'
+            },
+            'fuzzy': {}
+          }
+        }
+      }
+    ])
+    // .find().or([
+    //   { 'titleTranslation': { $regex: `${searchString}` } },
+    //   { 'translators': { $regex: `${searchString}` } },
+    //   { 'translatedInto': { $regex: `${searchString}` } },
+    //   { 'titleOriginal': { $regex: `${searchString}` } },
+    //   { 'authors': { $regex: `${searchString}` } },
+    //   { 'translatedFrom': { $regex: `${searchString}` } },
+    //   { 'singleOrAnthology': { $regex: `${searchString}` } },
+    //   { 'editors': { $regex: `${searchString}` } },
+    //   { 'type': { $regex: `${searchString}` } },
+    //   { 'yearOfPublicationOriginal': { $regex: `${searchString}` } },
+    //   { 'yearOfPublicationTranslation': { $regex: `${searchString}` } },
+    //   { 'publisherOriginal': { $regex: `${searchString}` } },
+    //   { 'publisherTranslation': { $regex: `${searchString}` } },
+    //   { 'ebook': { $regex: `${searchString}` } },
+    //   { 'genre': { $regex: `${searchString}` } },
+    //   { 'isbn': { $regex: `${searchString}` } },
+    // ]).sort({ 'titleTranslation': 1 })
   }
 }
