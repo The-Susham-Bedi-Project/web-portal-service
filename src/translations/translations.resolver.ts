@@ -1,6 +1,9 @@
-import { Args, Query, Resolver } from "@nestjs/graphql";
-import { Translation } from "./models/translation";
+import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
+import { Message } from "./models/message";
+import { Translation, TranslationInput } from "./models/translation";
 import { TranslationsService } from "./translations.service";
+import { Translation as TranslationSchema } from "./models/translation.schema";
+
 
 @Resolver()
 export class TranslationsResolver {
@@ -25,5 +28,10 @@ export class TranslationsResolver {
     @Query(() => [Translation])
     async translationByIdList(@Args({name: 'ids', type: () => [String]}) ids: string[]) {
         return this.translationsService.findbyIds(ids);
+    }
+
+    @Mutation(() => [Translation])
+    async addTranslations(@Args({name: 'translations', type: () => [TranslationInput]}) translations: TranslationInput[]) {
+        return this.translationsService.addTranslations(translations);
     }
 }

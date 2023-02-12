@@ -43,3 +43,28 @@ type Query {
   themes: [Theme!]!
   themeById(_id: String!): Theme!
 }
+
+type Mutation {
+  addTranslations(translations: [TranslationInput!]!): [Translation!]!
+}
+
+input TranslationInput {
+  titleOriginal: String
+  titleTranslation: String
+  singleOrAnthology: String
+  authors: String
+  translators: String
+  editors: String
+  translatedFrom: String
+  translatedInto: String
+  type: String
+  yearOfPublicationOriginal: String
+  yearOfPublicationTranslation: String
+  publisherOriginal: String
+  publisherTranslation: String
+  ebook: String
+  genre: String
+  isbn: String
+  imgUrl: String
+  tags: String
+}
