@@ -118,3 +118,16 @@ export class TranslationInput {
     @Field({ nullable: true })
     tags?: string;
 }
+
+@InputType()
+export class SearchInput {
+
+    @Field({ nullable: true })
+    searchString?: string;
+
+    @Field({ nullable: true })
+    translatedFrom?: string;
+
+    @Field({ nullable: true })
+    translatedInto?: string;
+}

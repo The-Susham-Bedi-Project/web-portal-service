@@ -3,7 +3,7 @@ import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 import { Translation, TranslationDocument, TranslationInputDocument } from "./models/translation.schema";
 import { Message, MessageDocument } from "./models/message.schema";
-import { TranslationInput } from "./models/translation";
+import { SearchInput, TranslationInput } from "./models/translation";
 
 
 @Injectable()
@@ -25,31 +25,59 @@ export class TranslationsService {
     return this.translationModel.find().where('_id').in(ids).sort({ 'titleTranslation': 1 }).exec();
   }
 
-  async search(searchString: string): Promise<Translation[]> {
-    return this.translationModel.aggregate([
-      {
-        '$search': {
-          'index': 'searchTranslations',
-          'text': {
-            'query': `${searchString}`,
-            'path': {
-              'wildcard': '*'
-            },
-            'fuzzy': {}
-          }
+  async search(searchInput: SearchInput): Promise<Translation[]> {
+    return this.translationModel.aggregate(this.formSearchQuery(searchInput))
+  }
+
+  formSearchQuery(searchInput: SearchInput) {
+    let query=[];
+    if (searchInput.searchString) { query.push({
+      '$search': {
+        'index': 'searchTranslations',
+        'text': {
+          'query': `${searchInput.searchString}`,
+          'path': {
+            'wildcard': '*'
+          },
+          'fuzzy': {}
         }
+      },
+    })}
+    if(searchInput.translatedFrom || searchInput.translatedInto) {
+      if(!searchInput.translatedFrom) {
+        query.push({
+          '$match': {            
+              'translatedInto': new RegExp(`^${searchInput.translatedInto}`, 'i')
+          }
+        })
+      } else if(!searchInput.translatedInto) {
+        query.push({
+          '$match': {            
+              'translatedFrom': new RegExp(`^${searchInput.translatedFrom}`, 'i') 
+          }
+        })
+      } else {
+        query.push({
+          '$match': {
+            '$and': [
+              { 'translatedFrom': new RegExp(`^${searchInput.translatedFrom}`, 'i') },
+              { 'translatedInto': new RegExp(`^${searchInput.translatedInto}`, 'i')  }]
+          }
+        })
       }
-    ])
+    }
+
+    return query;
   }
 
   async addTranslations(translations: TranslationInput[]): Promise<Translation[]> {
     return this.translationModel.insertMany(translations)
-      // .then((data)=>{
-      //   return Promise.resolve({msg: `Added ${data.length} document(s) successfully`})
-      // })
-      // .catch((err)=>{
-      //   console.log(err)
-      // });
-      // return Promise.resolve({msg: `An error occured please try again`})
+    // .then((data)=>{
+    //   return Promise.resolve({msg: `Added ${data.length} document(s) successfully`})
+    // })
+    // .catch((err)=>{
+    //   console.log(err)
+    // });
+    // return Promise.resolve({msg: `An error occured please try again`})
   }
 }

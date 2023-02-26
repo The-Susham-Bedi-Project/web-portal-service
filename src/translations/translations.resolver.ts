@@ -1,6 +1,6 @@
 import { Args, Mutation, Query, Resolver } from "@nestjs/graphql";
 import { Message } from "./models/message";
-import { Translation, TranslationInput } from "./models/translation";
+import { SearchInput, Translation, TranslationInput } from "./models/translation";
 import { TranslationsService } from "./translations.service";
 import { Translation as TranslationSchema } from "./models/translation.schema";
 
@@ -16,8 +16,8 @@ export class TranslationsResolver {
     }
 
     @Query(() => [Translation])
-    async search(@Args('searchString') searchString: string) {
-        return this.translationsService.search(searchString);
+    async search(@Args({name: 'searchInput'}) searchInput: SearchInput) {
+        return this.translationsService.search(searchInput);
     }
 
     @Query(() => Translation)

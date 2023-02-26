@@ -37,11 +37,17 @@ type TranslationId {
 
 type Query {
   translations: [Translation!]!
-  search(searchString: String!): [Translation!]!
+  search(searchInput: SearchInput!): [Translation!]!
   translationById(_id: String!): Translation!
   translationByIdList(ids: [String!]!): [Translation!]!
   themes: [Theme!]!
   themeById(_id: String!): Theme!
+}
+
+input SearchInput {
+  searchString: String
+  translatedFrom: String
+  translatedInto: String
 }
 
 type Mutation {
